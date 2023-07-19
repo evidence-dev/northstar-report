@@ -1,12 +1,16 @@
+---
+title: Needful Things Northstar Report
+---
+
 <script>
 import Mermaid from '../components/Mermaid.svelte';
 </script>
 
-# Needful Things Northstar Report
 
 This report contains the most important high level metrics for Needful Things' business operations.
 
-In this report, we bias towards reporting on the **inputs measures** for our business, rather than the **outputs KPIs**. This is becuase we have control over these inputs, and are leading indicators of our future performance.
+- This report focuses on the **inputs measures** for our business, rather than the **outputs KPIs**. 
+- This is becuase we have control over these inputs, and we have chosen those that are leading indicators of future performance.
 
 
 # Output KPIs
@@ -89,19 +93,20 @@ graph LR
 However these are not inputs we control, for that we need to dig deeper.
 
 
-- \# Orders are impacted by
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+**Orders** are impacted by
   1. **Paid marketing** (volume and efficiency)
   2. **Customer experience** (which drives repeat purchases and referrals, ie organic orders)
   3. **Our capacity** to fulfill orders
-  
-- AOV is impacted by
-  1. Product availability
-  2. Product range
-  3. Product pricing
+
+  **AOV** is impacted by
+  1. **Availability** of products
+  2. **Range** of products
+  3. **Pricing** of products
 
 # Input KPIs
 
-## Paid Marketing
+## 1. Paid Marketing
 
 
 
@@ -209,7 +214,7 @@ graph LR
 </Alert>
 
 
-## Organic Orders
+## 2. Customer Experience
 
 We know that organic orders (repeat purchases and referrals) are driven by **great customer experience**.
 
@@ -326,7 +331,7 @@ order by 1 desc
   fmt=pct1
 />
 
-## Capacity
+## 3. Capacity
 
 It is important to manage our capcity:
 - **Enough**: So that we deliver short lead-times for our customers
@@ -336,7 +341,7 @@ It is important to manage our capcity:
   Utilisation reporting is WIP
 </Alert>
 
-## Product Pricing
+## 4. Product Pricing
 
 ```sql average_price
 select 
@@ -357,10 +362,14 @@ order by 1 desc
   comparisonFmt=pct1
 />
 
-## Product Range
+Note that our website currently limits customers to buying one item per order, meaning that our average price is the same as our AOV.
+
+Allowing multiple items per order should significantly increase our AOV.
+
+## 5. Product Range
 
 See Customer Experience section above
 
-## Product Availability
+## 6. Product Availability
 
 We are currently working on a way to track this.
