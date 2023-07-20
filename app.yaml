@@ -1,0 +1,13 @@
+runtime: nodejs18
+service: NORTHSTAR_REPORT_WEB
+instance_class: F2
+
+handlers:
+  - url: /static
+    static_dir: ./build/static
+
+  - url: /.*
+    script: auto
+
+env_variables:
+  NODE_ENV: production
