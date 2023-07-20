@@ -23,10 +23,10 @@ jobs:
       - name: Where is python?
         run: which python3
       
-      - name: Authenticate with Google Cloud
-        run: |
-          echo "${{ secrets.GCLOUD_AUTH }}" > /tmp/keyfile.json
-          gcloud auth activate-service-account --key-file=/tmp/keyfile.json
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCLOUD_AUTH }}'
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1.1.1
