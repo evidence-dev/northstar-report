@@ -1,0 +1,28 @@
+name: Deploy to App Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.7.0
+        with:
+          version: '313.0.0'
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build SvelteKit app
+        run: npm run build
+
+      - name: Deploy to App Engine
+        run: gcloud app deploy --project ${{ secrets.GCLOUD_PROJECT_ID }} --quiet
