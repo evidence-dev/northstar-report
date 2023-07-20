@@ -26,7 +26,7 @@ jobs:
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1.1.1
         with:
-          version: '313.0.0'
+          version: '439.0.0'
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
           install_components: true
 
