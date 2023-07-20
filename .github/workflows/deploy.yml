@@ -28,7 +28,6 @@ jobs:
         with:
           version: '439.0.0'
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
-          install_components: true
 
       - name: Install dependencies
         run: npm install
