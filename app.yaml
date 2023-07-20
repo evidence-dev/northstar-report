@@ -1,5 +1,5 @@
 runtime: nodejs18
-service: NORTHSTAR_REPORT_WEB
+service: northstar-report-web
 instance_class: F2
 
 handlers:
