@@ -22,6 +22,9 @@ jobs:
 
       - name: Where is python?
         run: which python3
+      
+      - name: Authenticate with Google Cloud
+        run: gcloud auth activate-service-account --key-file=${{ secrets.GCLOUD_AUTH }}
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1.1.1
