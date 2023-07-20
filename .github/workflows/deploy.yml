@@ -16,7 +16,7 @@ jobs:
         run: which python3
       
       - name: Set CLOUDSDK_PYTHON
-        run: echo "CLOUDSDK_PYTHON=/path/to/python3" >> $GITHUB_ENV
+        run: echo "CLOUDSDK_PYTHON=/usr/bin/python3" >> $GITHUB_ENV
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1.1.1
