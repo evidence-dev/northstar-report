@@ -12,6 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
+      - name: Where is python?
+        run: which python3
+      
       - name: Set CLOUDSDK_PYTHON
         run: echo "CLOUDSDK_PYTHON=/path/to/python3" >> $GITHUB_ENV
 
