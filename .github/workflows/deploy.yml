@@ -11,19 +11,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+    
+      - name: Export gcloud related env variable
+        run: export CLOUDSDK_PYTHON="/usr/bin/python3"
 
       - name: Where is python?
         run: which python3
-
-      - name: Set CLOUDSDK_PYTHON
-        run: echo "CLOUDSDK_PYTHON=/usr/bin/python3" >> $GITHUB_ENV
-
-      - name: Reinstall Google Cloud SDK
-        run: |
-          echo "CLOUDSDK_PYTHON=/usr/bin/python3" >> $GITHUB_ENV
-          curl https://sdk.cloud.google.com | bash
-          exec -l $SHELL
-          gcloud components update
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1.1.1
