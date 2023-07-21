@@ -7,13 +7,12 @@ import Mermaid from '../components/Mermaid.svelte';
 </script>
 
 
-This report contains the most important daily high level metrics for Needful Things' business operations.
+This report contains the most important daily high-level metrics for Needful Things' business operations.
 
 <details>
 <summary>Motivation</summary>
 
-- This report focuses on the inputs measures for our business, rather than the outputs KPIs. 
-- This is becuase we have control over these inputs, and we have chosen those that are leading indicators of future performance.
+- This report focuses on the inputs measures for our business, rather than the outputs KPIs. This is because we have control over these inputs, and we have chosen those that are leading indicators of future performance.
 
 </details>
 
@@ -160,7 +159,7 @@ limit 90
 
 **Orders** are impacted by
   1. **Paid marketing** (volume and efficiency)
-  2. **Customer experience** (which drives repeat purchases and referrals, ie organic orders)
+  2. **The customer experience** (which drives repeat purchases and referrals, ie organic orders)
   3. **Our capacity** to fulfill orders
 
 **AOV** is impacted by
@@ -273,7 +272,7 @@ graph LR
 </Mermaid>
 
 <Alert status=info>
-  We do not currently have a way to track paid impressions and conversion rate. This is a priority for us.
+  We do not currently have a way to track paid impressions and conversion rates. This is a priority for us.
 </Alert>
 
 
@@ -543,9 +542,9 @@ limit 90
 
 ## 3. Capacity
 
-It is important to manage our capcity:
-- **Enough**: So that we deliver short lead-times for our customers
-- **Not too much**: So that we don't pay for unused capacity
+It is important to manage our capacity:
+- **Enough**: So we deliver short lead times for our customers
+- **Not too much:** So we don't pay for unused capacity
 
 <Alert status=warning>
   Utilisation reporting is WIP
@@ -578,7 +577,7 @@ Allowing multiple items per order should significantly increase our AOV.
 
 ## 5. Product Range
 
-See Customer Experience section above
+See the customer experience section above
 
 ## 6. Product Availability
 
