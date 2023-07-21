@@ -472,28 +472,31 @@ limit 90
 <BigValue
   data={range_sold}
   value=range_sold
-  title="Products Lines Available"
+  title="Product Lines"
 />
 
 <BigValue
   data={time_to_delivery}
   value=days_to_delivery_slot
-  title="Avg Days to Next Delivery Slot"
+  title="Avg Time to Delivery"
+  fmt='0.00" days"'
 />
 
 <BigValue
   data={delivery_on_time}
   value=on_time_percentage
   title="On Time Delivery %"
-  fmt=pct1
+  fmt=pct
 />
 
 <BigValue
   data={returns_percent}
   value=returns_percent
-  title="Returns Due to Poor CX%"
+  title="Returns % Due to Poor CX*"
   fmt=pct1
 />
+
+\* Returns where customer gave a reason that indicates poor customer experience, eg quality, damaged, wrong item, etc.
 
 <details>
 <summary>Show Charts</summary>
@@ -507,9 +510,10 @@ limit 90
 
 <LineChart
   data={time_to_delivery}
-  title="Avg Days to Next Delivery Slot, Last 90 Days"
+  title="Avg Time to Delivery, Last 90 Days"
   x=day
   y=days_to_delivery_slot
+  yFmt='0.00" days"'
 />
 
 <LineChart
@@ -542,13 +546,112 @@ limit 90
 
 ## 3. Capacity
 
+<details>
+<summary>Why these metrics?</summary>
+
 It is important to manage our capacity:
-- **Enough**: So we deliver short lead times for our customers
+- **Enough**: So we deliver short lead times for our customers, and drivers shifts are not too full
 - **Not too much:** So we don't pay for unused capacity
 
-<Alert status=warning>
-  Utilisation reporting is WIP
-</Alert>
+</details>
+
+
+```sql truck_capacity
+select * from trucks
+```
+
+
+```sql deliveries_by_truck
+select 
+  date_trunc('day', delivery_slot_start) as day,
+  truck_number,
+  capacity,
+  count(*) as deliveries,
+  
+from deliveries
+left join trucks on deliveries.truck_number = trucks.id
+group by 1,2,3
+```
+
+
+```sql utilisation
+select 
+  day,
+  sum(deliveries) as deliveries,
+  count(distinct truck_number) as trucks,
+  sum(capacity) as capacity,
+  sum(deliveries) / sum(capacity) as utilisation
+from ${deliveries_by_truck}
+group by 1
+order by 1 desc
+limit 90
+offset 4
+```
+
+<BigValue
+  data={utilisation}
+  value=trucks
+  title="Trucks"
+/>
+
+<BigValue
+  data={utilisation}
+  value=capacity
+  title="Delivery Capacity*"
+/>
+
+<BigValue
+  data={utilisation}
+  value=deliveries
+  title="Deliveries"
+/>
+
+
+<BigValue
+  data={utilisation}
+  value=utilisation
+  title="Truck Utilisation"
+  fmt=pct
+/>
+
+\* This assumes an empirical capacity of 10 deliveries per truck per day. In reality this depends on the size of items and the routes.
+
+
+<details>
+<summary>Show Charts</summary>
+
+<BarChart
+  data={utilisation}
+  title="Trucks, Last 90 Days"
+  x=day
+  y=trucks
+/>
+
+<BarChart
+  data={utilisation}
+  title="Truck Capacity, Last 90 Days"
+  x=day
+  y=capacity
+/>
+
+<BarChart
+  data={utilisation}
+  title="Deliveries, Last 90 Days"
+  x=day
+  y=deliveries
+/>
+
+<BarChart
+  data={utilisation}
+  title="Truck Utilisation, Last 90 Days"
+  x=day
+  y=utilisation
+  yFmt=pct
+/>
+
+</details>
+
+
 
 ## 4. Product Pricing
 
