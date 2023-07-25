@@ -1,5 +1,5 @@
 <script>
-    export let visible = false;
+    export let open = false;
     export let title = "Details";
     import { slide } from 'svelte/transition';
 
@@ -9,13 +9,13 @@
 
 <button 
     class="italic text-base text-grey-800 cursor-pointer" 
-    on:click={() => (visible = !visible)}>
+    on:click={() => (open = !open)}>
     <span 
-        class={visible ? "marker rotate-marker" : "marker"} />
+        class={open ? "marker rotate-marker" : "marker"} />
         {title}
 </button>
 
-{#if visible}
+{#if open}
     <div 
         class="ml-3 pt-3 mb-6 text-base"
         transition:slide
@@ -31,7 +31,7 @@
         
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
-        border-top: 9px solid var(--grey-900);
+        border-top: 9px solid var(--grey-800);
         margin-right: 8px;
         transform: rotate(-90deg);
         transition: transform 0.2s ease;
