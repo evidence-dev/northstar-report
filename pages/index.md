@@ -38,7 +38,7 @@ This report shows the most important daily metrics for our business.
   x=day 
   y=aov 
   yFmt=usd0
-  title="AOV, 2022"
+  title="AOV, 2021"
 >
   <ReferenceArea yMin='33' label='Exceeds Target' color=green labelPosition=topRight/>
   <ReferenceArea yMin='24' yMax='33' label='Meets Target' color=yellow labelPosition=bottomRight/>
