@@ -1,21 +1,7 @@
 <!-- Mermaid.svelte -->
-<script>
-    import { onMount, createEventDispatcher } from "svelte";
+<script context="module">
     import mermaid from "mermaid";
-    export let id;
-
-    const dispatch = createEventDispatcher();
-
-    onMount(() => {
-        if (!id) {
-            this.error(
-                new Error(
-                    "The 'id' prop is required for the Mermaid component."
-                )
-            );
-            return;
-        }
-
+    export function prerender() {
         mermaid.initialize({
             startOnLoad: true, // Auto-render diagrams when the page loads
             theme: "base", // Theme for the diagram, "base" is customizable https://mermaid.js.org/config/theming.html
@@ -27,6 +13,20 @@
                 secondaryColor: "hsla(342, 40%, 40%, 1)"
             },
         });
+    }
+</script>
+
+<script>
+    import { onMount, createEventDispatcher } from "svelte";
+    export let id;
+
+    const dispatch = createEventDispatcher();
+
+    onMount(() => {
+        if (!id) {
+            throw new Error("The 'id' prop is required for the Mermaid component.");
+        }
+
         mermaid.init(
             undefined,
             document.getElementById(`mermaid-container-${id}`)
