@@ -37,6 +37,6 @@
     });
 </script>
 
-<div id={`mermaid-container-${id}`} class={`mermaid-container-${id}`}>
+<div id={`mermaid-container-${id}`} class={`mermaid-container-${id} pb-4`}>
     <slot />
 </div>
