@@ -40,10 +40,10 @@ This report shows the most important daily metrics for our business.
   yFmt=usd0
   title="AOV, 2022"
 >
-  <ReferenceArea yMin='35' label='Exceeds Target' color=green labelPosition=topRight/>
-  <ReferenceArea yMin='27' yMax='35' label='Meets Target' color=yellow labelPosition=bottomRight/>
-  <ReferenceArea yMax='27' label='Below Target' color=red/>
-  <ReferenceLine y='32' yMax='40' label='Budget' labelPosition=belowStart/>
+  <ReferenceArea yMin='33' label='Exceeds Target' color=green labelPosition=topRight/>
+  <ReferenceArea yMin='24' yMax='33' label='Meets Target' color=yellow labelPosition=bottomRight/>
+  <ReferenceArea yMax='24' label='Below Target' color=red/>
+  <ReferenceLine y='29.5' yMax='40' label='Budget' labelPosition=belowStart/>
 </LineChart>
 
 
@@ -195,25 +195,7 @@ Revenue is are impacted by:
 
 ### 1. Paid Marketing (Marketing team)
 
-<Details title="Why these metrics?">
 
-
-Our paid marketing spend drives our paid orders
-
-<Mermaid id=marketing>
-graph LR
-  paid-orders["Paid Orders"] --> spend["$ Spend"]
-  paid-orders --> cpa["$ Cost per Acquisition"]
-  cpa --> conversion["Conversion Rate %"]
-  cpa --> impressions["# Impressions"]
-</Mermaid>
-
-<Alert status=info>
-  We do not currently have a way to track paid impressions and conversion rates. This is a priority for us.
-</Alert>
-
-
-</Details>
 
 
 
@@ -247,32 +229,33 @@ graph LR
   downIsGood=true
 />
 
+<Details title="Why these metrics?">
+
+
+Our paid marketing spend drives our paid orders
+
+<Mermaid id=marketing>
+graph LR
+  paid-orders["Paid Orders"] --> spend["$ Spend"]
+  paid-orders --> cpa["$ Cost per Acquisition"]
+  cpa --> conversion["Conversion Rate %"]
+  cpa --> impressions["# Impressions"]
+</Mermaid>
+
+<Alert status=info>
+  We do not currently have a way to track paid impressions and conversion rates. This is a priority for us.
+</Alert>
+
+
+</Details>
+
 <BigLink href='/1.-marketing'>
   More Detail &rarr;
 </BigLink>
 
 ### 2. Customer Experience (Product & Customer Service teams)
 
-<Details title="Why these metrics?">
 
-We know that organic orders (repeat purchases and referrals) are driven by **great customer experience**.
-
-<Mermaid id=organic>
-graph LR
-  organic-orders["Orders"]-->cx["Great CX"]
-  cx-->repeat_and_referral["Repeat Orders & Referrals"]
-  repeat_and_referral-->organic-orders
-</Mermaid>
-
-The customer experience inputs we can control are:
-- Speed to getting products
-- Convenience of delivery
-- Quality of products
-- Range of available products (see merch team)
-
-We tie one metric to each of these inputs.
-
-</Details>
 
 
 
@@ -314,6 +297,27 @@ We tie one metric to each of these inputs.
 
 </small>
 
+<Details title="Why these metrics?">
+
+We know that organic orders (repeat purchases and referrals) are driven by **great customer experience**.
+
+<Mermaid id=organic>
+graph LR
+  organic-orders["Orders"]-->cx["Great CX"]
+  cx-->repeat_and_referral["Repeat Orders & Referrals"]
+  repeat_and_referral-->organic-orders
+</Mermaid>
+
+The customer experience inputs we can control are:
+- Speed to getting products
+- Convenience of delivery
+- Quality of products
+- Range of available products (see merch team)
+
+We tie one metric to each of these inputs.
+
+</Details>
+
 
 <BigLink href='/2.-product-&-customer-service'>
   More Detail &rarr;
@@ -321,13 +325,7 @@ We tie one metric to each of these inputs.
 
 ### 3. Capacity (Ops Team)
 
-<Details title="Why these metrics?">
 
-It is important to manage our capacity:
-- **Enough**: So we deliver short lead times for our customers, and drivers shifts are not too full
-- **Not too much:** So we don't pay for unused capacity
-
-</Details>
 
 <BigValue
   data={utilisation}
@@ -373,6 +371,13 @@ It is important to manage our capacity:
 
 </small>
 
+<Details title="Why these metrics?">
+
+It is important to manage our capacity:
+- **Enough**: So we deliver short lead times for our customers, and drivers shifts are not too full
+- **Not too much:** So we don't pay for unused capacity
+
+</Details>
 
 <BigLink href='/3.-ops'>
   More Detail &rarr;
@@ -401,11 +406,22 @@ It is important to manage our capacity:
 
 <small>
 
-\* Our website currently limits customers to buying one item per order, meaning that our average price is the same as our AOV.
-
-Allowing multiple items per order should significantly increase our AOV.
+\* Our website currently limits customers to buying one item per order, meaning average price is the same as AOV. Allowing multiple items per order should significantly increase AOV.
 
 </small>
+
+
+<Details title="Why these metrics?">
+
+Ideally we would measure the following
+- **Range**: Number of products available to customers
+- **Availability**: Number of products in stock
+- **Price**: Average price of products
+
+but currently we do not have data on availability.
+
+</Details>
+
 
 <BigLink href='/4.-merch'>
   More Detail &rarr;
