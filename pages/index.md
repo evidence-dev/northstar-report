@@ -9,6 +9,18 @@ sources:
   - marketing_spend: marketing/marketing_spend.sql
   - spend: marketing/spend.sql
   - cpa: marketing/cpa.sql
+  - range_sold: merch/range_sold.sql
+  - average_price: merch/average_price.sql
+  - time_to_delivery: product-cs/time_to_delivery.sql
+  - delivery_on_time: product-cs/delivery_on_time.sql
+  - delivery_status: product-cs/delivery_status.sql
+  - returns_by_reason: product-cs/returns_by_reason.sql
+  - monthly_returns_by_reason: product-cs/monthly_returns_by_reason.sql
+  - returns_abs: product-cs/returns_abs.sql
+  - returns_percent: product-cs/returns_percent.sql
+  - utilisation: ops/utilisation.sql
+  - trucks: ops/trucks.sql
+  - deliveries_by_truck: ops/deliveries_by_truck.sql
 ---
 
 <script>
@@ -184,11 +196,6 @@ Revenue is are impacted by:
 
 ### 1. Paid Marketing (Marketing team)
 
-
-
-
-
-
 <Details title="Why these metrics?">
 
 
@@ -241,40 +248,9 @@ graph LR
   downIsGood=true
 />
 
-
-<Details title="Show Charts">
-
-<BarChart
-  data={paid_orders}
-  title="Paid Orders, Last 90 Days"
-  x=day
-  y=orders
-/>
-
-
-<BarChart
-  data={cpa}
-  title="Spend, Last 90 Days"
-  x=date
-  y=allocated_spend
-  yFmt=usd1k
-/>
-
-<BarChart
-  data={cpa}
-  title="CPA, Last 90 Days"
-  x=date
-  y=cpa
-  yFmt=usd2
-/>
-
-NB monthly spend totals are allocated evenly across days in the month.
-
-</Details>
-
-
-
----
+<BigLink href='/1.-marketing'>
+  More Detail &rarr;
+</BigLink>
 
 ### 2. Customer Experience (Product & Customer Service teams)
 
@@ -300,99 +276,6 @@ We tie one metric to each of these inputs.
 </Details>
 
 
-
-```sql time_to_delivery
-select
-  date_trunc('day', order_datetime) as day,
-  avg(extract(epoch from delivery_slot_start - order_datetime) / 60 / 60 / 24) as days_to_delivery_slot,
-  lag(days_to_delivery_slot) over (order by day) as days_to_delivery_slot_last,
-  days_to_delivery_slot / days_to_delivery_slot_last -1 as days_to_delivery_slot_growth
-from deliveries
-group by 1
-order by 1 desc
-limit 90
-```
-
-```sql delivery_status
-select
-  date_trunc('day', delivery_time) as day,
-  case 
-    when delivery_time < delivery_slot_start then 'Early'
-    when delivery_time > delivery_slot_end then 'Late'
-    else 'On Time'
-  end as delivery_status,
-  count(*) as deliveries
-from deliveries
-group by 1, 2
-order by 1 desc
-```
-
-```sql delivery_on_time
-SELECT
-  day,
-  SUM(CASE WHEN delivery_status = 'Early' THEN deliveries ELSE 0 END) AS early_deliveries,
-  SUM(CASE WHEN delivery_status = 'Late' THEN deliveries ELSE 0 END) AS late_deliveries,
-  SUM(CASE WHEN delivery_status = 'On Time' THEN deliveries ELSE 0 END) AS on_time_deliveries,
-  ROUND(SUM(CASE WHEN delivery_status = 'Early' THEN deliveries ELSE 0 END) / SUM(deliveries), 2) AS early_percentage,
-  ROUND(SUM(CASE WHEN delivery_status = 'Late' THEN deliveries ELSE 0 END) / SUM(deliveries), 2) AS late_percentage,
-  ROUND(SUM(CASE WHEN delivery_status = 'On Time' THEN deliveries ELSE 0 END) / SUM(deliveries), 2) AS on_time_percentage,
-  lag(ROUND(SUM(CASE WHEN delivery_status = 'On Time' THEN deliveries ELSE 0 END) / SUM(deliveries), 2)) over (order by day) as on_time_percentage_last,
-  on_time_percentage - on_time_percentage_last as on_time_percentage_delta
-FROM ${delivery_status}
-GROUP BY 1
-ORDER BY 1 DESC
-limit 90
-```
-
-```sql returns_by_by_reason
-select 
-date_trunc('day',order_datetime) as day,
-reason,
-count(*) as returns
-from returns
-left join orders on order_id=orders.id
-where reason ilike '%Quality%' 
- or reason ilike '%Damaged%' 
- or reason ilike '%Defective product%'
- or reason ilike '%wrong%'
- or reason ilike '%match%'
-group by 1,2
-order by 1 desc
-limit 90*5
-```
-
-```sql monthly_returns_by_reason
-select
-  date_trunc('month', day) as month_num,
-  monthname(day) as month,
-  reason,
-  sum(returns) as returns
-from ${returns_by_by_reason}
-group by 1,2,3
-order by 1
-```
-
-```sql returns_abs
-select 
-  day,
-  count(*) as returns
-from ${returns_by_by_reason}
-group by 1
-```
-
-```sql returns_percent
-select 
-  returns_abs.day,
-  returns,
-  orders,
-  1.0 * returns / orders as returns_percent,
-  lag( returns_percent) over (order by returns_abs.day) as returns_percent_last,
-  returns_percent - returns_percent_last as returns_percent_delta
-from ${returns_abs} returns_abs
-left join ${orders} orders on orders.day = returns_abs.day
-order by 1 desc
-limit 90
-```
 
 <BigValue
   data={time_to_delivery}
@@ -426,47 +309,16 @@ limit 90
   downIsGood=true
 />
 
+<small>
+
 \* Returns where customer gave a reason that indicates poor customer experience, eg quality, damaged, wrong item, etc.
 
-<Details title="Show Charts">
+</small>
 
 
-<LineChart
-  data={time_to_delivery}
-  title="Avg Time to Delivery, Last 90 Days"
-  x=day
-  y=days_to_delivery_slot
-  yFmt='0.00" days"'
-/>
-
-<LineChart
-  data={delivery_on_time}
-  title="On Time Delivery %, Last 90 Days"
-  x=day
-  y=on_time_percentage
-  yFmt=pct1
-/>
-
-<BarChart
-  data={returns_percent}
-  title="Returns Due to Poor CX%, Last 90 Days"
-  x=day
-  y=returns_percent
-  yFmt=pct1
-/>
-
-<BarChart
-  data={monthly_returns_by_reason}
-  title="Returns by Reason, Last 90 Days"
-  x=month
-  y=returns
-  series=reason
-  type=grouped
-/>
-
-</Details>
-
----
+<BigLink href='/2.-product-&-customer-service'>
+  More Detail &rarr;
+</BigLink>
 
 ### 3. Capacity (Ops Team)
 
@@ -477,45 +329,6 @@ It is important to manage our capacity:
 - **Not too much:** So we don't pay for unused capacity
 
 </Details>
-
-
-```sql truck_capacity
-select * from trucks
-```
-
-```sql deliveries_by_truck
-select 
-  date_trunc('day', delivery_slot_start) as day,
-  truck_number,
-  capacity,
-  count(*) as deliveries,
-  
-from deliveries
-left join trucks on deliveries.truck_number = trucks.id
-group by 1,2,3
-```
-
-```sql utilisation
-select 
-  day,
-  sum(deliveries) as deliveries_total,
-  count(distinct truck_number) as trucks,
-  sum(capacity) as capacity_total,
-  sum(deliveries) / sum(capacity) as utilisation,
-  lag(trucks) over (order by day) as trucks_last,
-  lag(deliveries_total) over (order by day) as deliveries_last,
-  lag(capacity_total) over (order by day) as capacity_last,
-  lag(utilisation) over (order by day) as utilisation_last,
-  trucks / trucks_last -1 as trucks_growth,
-  deliveries_total / deliveries_last -1 as deliveries_growth,
-  capacity_total / capacity_last -1 as capacity_growth,
-  utilisation / utilisation_last -1 as utilisation_growth
-from ${deliveries_by_truck}
-group by 1
-order by 1 desc
-limit 90
-offset 4
-```
 
 <BigValue
   data={utilisation}
@@ -555,67 +368,18 @@ offset 4
   comparisonTitle="growth"
 />
 
+<small>
+
 \* This assumes an empirical capacity of 10 deliveries per truck per day. In reality this depends on the size of items and the routes.
 
+</small>
 
-<Details title="Show Charts">
 
-<BarChart
-  data={utilisation}
-  title="Trucks, Last 90 Days"
-  x=day
-  y=trucks
-/>
-
-<BarChart
-  data={utilisation}
-  title="Truck Capacity, Last 90 Days"
-  x=day
-  y=capacity
-/>
-
-<BarChart
-  data={utilisation}
-  title="Deliveries, Last 90 Days"
-  x=day
-  y=deliveries
-/>
-
-<BarChart
-  data={utilisation}
-  title="Truck Utilisation, Last 90 Days"
-  x=day
-  y=utilisation
-  yFmt=pct
-/>
-
-</Details>
-
----
+<BigLink href='/3.-ops'>
+  More Detail &rarr;
+</BigLink>
 
 ### 4. Product Offering (Merch team)
-
-```sql range_sold
-select 
-  date_trunc('day', order_datetime) as day,
-  count(distinct item) as range_sold,
-  1.0 * count(distinct item) / lag(count(distinct item)) over (order by day) -1 as range_sold_growth
-from orders
-group by 1
-order by 1 desc
-limit 90
-```
-
-```sql average_price
-select 
-  date_trunc('day', order_datetime) as day,
-  avg(sales) as average_price,
-  avg(sales) / lag(avg(sales)) over (order by day) -1 as average_price_growth
-from orders
-group by 1 
-order by 1 desc
-limit 90
-```
 
 <BigValue
   data={range_sold}
@@ -629,33 +393,21 @@ limit 90
 <BigValue
   data={average_price}
   value=average_price
-  title="Average Price"
+  title="Average Price*"
   fmt=usd2
   comparison=average_price_growth
   comparisonFmt=pct1
   comparisonTitle="growth"
 />
 
-Note that our website currently limits customers to buying one item per order, meaning that our average price is the same as our AOV.
+<small>
+
+\* Our website currently limits customers to buying one item per order, meaning that our average price is the same as our AOV.
 
 Allowing multiple items per order should significantly increase our AOV.
 
-<Details title="Show Charts">
+</small>
 
-
-<BarChart
-  data={range_sold}
-  title="Products Lines Available, Last 90 Days"
-  x=day
-  y=range_sold
-/>
-
-<BarChart
-  data={average_price}
-  title="Average Price, Last 90 Days"
-  x=day
-  y=average_price
-  yFmt=usd2
-/>
-
-</Details>
+<BigLink href='/4.-merch'>
+  More Detail &rarr;
+</BigLink>
