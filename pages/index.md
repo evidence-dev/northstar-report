@@ -2,7 +2,7 @@
 title: Northstar Report
 sources:
   - orders: orders.sql
-  - orders_2022: orders_2022.sql
+  - orders_2021: orders_2021.sql
   - paid_orders: marketing/paid_orders.sql
   - organic_orders: marketing/organic_orders.sql
   - dates: marketing/dates.sql
@@ -19,7 +19,6 @@ sources:
   - returns_abs: product-cs/returns_abs.sql
   - returns_percent: product-cs/returns_percent.sql
   - utilisation: ops/utilisation.sql
-  - trucks: ops/trucks.sql
   - deliveries_by_truck: ops/deliveries_by_truck.sql
 ---
 
@@ -35,7 +34,7 @@ This report shows the most important daily metrics for our business.
 ## 🌟 Average Order Value
 
 <LineChart 
-  data={orders_2022} 
+  data={orders_2021} 
   x=day 
   y=aov 
   yFmt=usd0
@@ -311,7 +310,7 @@ We tie one metric to each of these inputs.
 
 <small>
 
-\* Returns where customer gave a reason that indicates poor customer experience, eg quality, damaged, wrong item, etc.
+\* Returns where customer gave a reason that indicates poor customer experience, e.g. quality, damaged, wrong item, etc.
 
 </small>
 
