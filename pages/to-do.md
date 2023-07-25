@@ -2,6 +2,7 @@
 title: "Todo"
 ---
 
-- Add charts
-- add data for capacity
-- add data for availability
+- general tidy
+- team pages
+- more colours for charts
+- less barcharts

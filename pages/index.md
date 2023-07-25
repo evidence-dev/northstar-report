@@ -7,16 +7,43 @@ import Mermaid from '../components/Mermaid.svelte';
 </script>
 
 
-This report contains the most important daily high-level metrics for Needful Things' business operations.
+This report shows the most important daily metrics for our business.
 
 <details>
 <summary>Motivation</summary>
 
-- This report focuses on the inputs measures for our business, rather than the outputs KPIs. This is because we have control over these inputs, and we have chosen those that are leading indicators of future performance.
+- This report includes both the inputs measures for our business, as well ast the outputs KPIs. 
+- This is because we have control over these inputs, and we have chosen those that are leading indicators of future performance.
 
 </details>
 
-# Output KPIs
+## 🌟 Average Order Value
+
+<LineChart 
+  data={orders_2022} 
+  x=day 
+  y=aov 
+  yFmt=usd0
+  title="AOV, 2022"
+>
+  <ReferenceArea yMin='35' label='Exceeds Target' color=green labelPosition=topRight/>
+  <ReferenceArea yMin='27' yMax='35' label='Meets Target' color=yellow labelPosition=bottomRight/>
+  <ReferenceArea yMax='27' label='Below Target' color=red/>
+  <ReferenceLine y='32' yMax='40' label='Budget' labelPosition=belowStart/>
+</LineChart>
+
+<details>
+<summary>Definition</summary>
+
+AOV is the *Average Order Value*, the amount a customer spends on an order, net of tax. It excludes B2B revenue which otherwise skews the metric siginificantly.
+
+</details>
+
+
+
+
+
+## Output KPIs
 
 
 <details>
@@ -27,7 +54,7 @@ We can break down our revenue as follows:
 <Mermaid id=sales>
 graph LR
   sales --> aov[$ AOV]
-  sales[$ Sales] --> orders["# Orders"]
+  sales[$ Sales] --> orders["## Orders"]
   orders --> paid-orders["Paid Orders"]
   orders --> organic-orders["Organic Orders"]
 </Mermaid>
@@ -35,7 +62,7 @@ graph LR
 </details>
 
 
-```sql orders
+```sql orders_2022
 select 
   date_trunc('day', order_datetime) as day,
   count(*) as orders,
@@ -50,8 +77,14 @@ select
 from orders
 group by 1
 order by 1 desc
+limit 365
+```
+
+```sql orders
+select * from ${orders_2022}
 limit 90
 ```
+
 
 
 
@@ -63,6 +96,7 @@ limit 90
   fmt=usd1k
   comparison=sales_growth
   comparisonFmt=pct1
+  comparisonTitle="growth"
 />
 
 <BigValue
@@ -72,6 +106,7 @@ limit 90
   fmt=usd2
   comparison=aov_growth
   comparisonFmt=pct1
+  comparisonTitle="growth"
 />
 
 
@@ -80,6 +115,7 @@ limit 90
   value=orders
   comparison=orders_growth
   comparisonFmt=pct1
+  comparisonTitle="growth"
 />
 
 
@@ -89,6 +125,7 @@ limit 90
   title="Paid Orders"
   comparison=orders_growth
   comparisonFmt=pct1
+  comparisonTitle="growth"
 />
 
 <BigValue
@@ -97,6 +134,7 @@ limit 90
   title="Organic Orders"
   comparison=orders_growth
   comparisonFmt=pct1
+  comparisonTitle="growth"
 />
 
 
@@ -151,26 +189,24 @@ limit 90
 
 
 
-# Input KPIs
+## Input KPIs
 
 <details>
-<summary>Why these 6 groups?</summary>
+<summary>Why these groups?</summary>
 
 
-**Orders** are impacted by
+**Revenue is** are impacted by
   1. **Paid marketing** (volume and efficiency)
   2. **The customer experience** (which drives repeat purchases and referrals, ie organic orders)
   3. **Our capacity** to fulfill orders
-
-**AOV** is impacted by
-  1. **Availability** of products
-  2. **Range** of products
-  3. **Pricing** of products
+  4. **Pricing** of products
 
 
 </details>
 
-## 1. Paid Marketing
+---
+
+### 1. Paid Marketing (Marketing team)
 
 
 
@@ -339,8 +375,9 @@ NB monthly spend totals are allocated evenly across days in the month.
 
 
 
+---
 
-## 2. Customer Experience
+### 2. Customer Experience (Product & Customer Service teams)
 
 <details>
 <summary>Why these metrics?</summary>
@@ -355,10 +392,10 @@ graph LR
 </Mermaid>
 
 The customer experience inputs we can control are:
-- Range of available products
 - Speed to getting products
 - Convenience of delivery
 - Quality of products
+- Range of available products (see merch team)
 
 We tie one metric to each of these inputs.
 
@@ -469,30 +506,26 @@ limit 90
 
 
 
-<BigValue
-  data={range_sold}
-  value=range_sold
-  title="Product Lines"
-/>
+
 
 <BigValue
   data={time_to_delivery}
   value=days_to_delivery_slot
-  title="Avg Time to Delivery"
+  title="Days to Delivery"
   fmt='0.00" days"'
 />
 
 <BigValue
   data={delivery_on_time}
   value=on_time_percentage
-  title="On Time Delivery %"
+  title="On Time %"
   fmt=pct
 />
 
 <BigValue
   data={returns_percent}
   value=returns_percent
-  title="Returns % Due to Poor CX*"
+  title="Poor CX Returns %*"
   fmt=pct1
 />
 
@@ -501,12 +534,6 @@ limit 90
 <details>
 <summary>Show Charts</summary>
 
-<BarChart
-  data={range_sold}
-  title="Products Lines Available, Last 90 Days"
-  x=day
-  y=range_sold
-/>
 
 <LineChart
   data={time_to_delivery}
@@ -543,8 +570,9 @@ limit 90
 
 </details>
 
+---
 
-## 3. Capacity
+### 3. Capacity (Ops Team)
 
 <details>
 <summary>Why these metrics?</summary>
@@ -651,9 +679,9 @@ offset 4
 
 </details>
 
+---
 
-
-## 4. Product Pricing
+### 4. Product Offering (Merch team)
 
 ```sql average_price
 select 
@@ -663,7 +691,14 @@ select
 from orders
 group by 1 
 order by 1 desc
+limit 90
 ```
+
+<BigValue
+  data={range_sold}
+  value=range_sold
+  title="Product Lines"
+/>
 
 <BigValue
   data={average_price}
@@ -678,10 +713,23 @@ Note that our website currently limits customers to buying one item per order, m
 
 Allowing multiple items per order should significantly increase our AOV.
 
-## 5. Product Range
+<details>
+<summary>Show Charts</summary>
 
-See the customer experience section above
 
-## 6. Product Availability
+<BarChart
+  data={range_sold}
+  title="Products Lines Available, Last 90 Days"
+  x=day
+  y=range_sold
+/>
 
-We are currently working on a way to track this.
+<BarChart
+  data={average_price}
+  title="Average Price, Last 90 Days"
+  x=day
+  y=average_price
+  yFmt=usd2
+/>
+
+</details>
