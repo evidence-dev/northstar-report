@@ -4,18 +4,12 @@ title: Northstar Report
 
 <script>
 import Mermaid from '../components/Mermaid.svelte';
+import Details from '../components/Details.svelte';
 </script>
 
 
 This report shows the most important daily metrics for our business.
 
-<details>
-<summary>Motivation</summary>
-
-- This report includes both the inputs measures for our business, as well ast the outputs KPIs. 
-- This is because we have control over these inputs, and we have chosen those that are leading indicators of future performance.
-
-</details>
 
 ## 🌟 Average Order Value
 
@@ -32,12 +26,11 @@ This report shows the most important daily metrics for our business.
   <ReferenceLine y='32' yMax='40' label='Budget' labelPosition=belowStart/>
 </LineChart>
 
-<details>
-<summary>Definition</summary>
+<Details title=Definition>
 
 AOV is the *Average Order Value*, the amount a customer spends on an order, net of tax. It excludes B2B revenue which otherwise skews the metric siginificantly.
 
-</details>
+</Details>
 
 
 
@@ -46,8 +39,8 @@ AOV is the *Average Order Value*, the amount a customer spends on an order, net 
 ## Output KPIs
 
 
-<details>
-<summary>Why these metrics?</summary>
+<Details title="Why these metrics?">
+
 
 We can break down our revenue as follows:
 
@@ -59,7 +52,7 @@ graph LR
   orders --> organic-orders["Organic Orders"]
 </Mermaid>
 
-</details>
+</Details>
 
 
 ```sql orders_2022
@@ -139,8 +132,7 @@ limit 90
 
 
 
-<details>
-<summary>Show Charts</summary>
+<Details title="Show Charts">
 
 
 <BarChart
@@ -184,15 +176,14 @@ limit 90
 
 
 
-</details>
+</Details>
 
 
 
 
 ## Input KPIs
 
-<details>
-<summary>Why these groups?</summary>
+<Details title="Why these groups?">
 
 
 **Revenue is** are impacted by
@@ -202,7 +193,7 @@ limit 90
   4. **Pricing** of products
 
 
-</details>
+</Details>
 
 ---
 
@@ -293,8 +284,7 @@ limit 90
 
 
 
-<details>
-<summary>Why these metrics?</summary>
+<Details title="Why these metrics?">
 
 
 Our paid marketing spend drives our paid orders
@@ -312,7 +302,7 @@ graph LR
 </Alert>
 
 
-</details>
+</Details>
 
 
 
@@ -343,8 +333,7 @@ graph LR
 />
 
 
-<details>
-<summary>Show Charts</summary>
+<Details title="Show Charts">
 
 <BarChart
   data={paid_orders}
@@ -371,7 +360,7 @@ graph LR
 
 NB monthly spend totals are allocated evenly across days in the month.
 
-</details>
+</Details>
 
 
 
@@ -379,8 +368,7 @@ NB monthly spend totals are allocated evenly across days in the month.
 
 ### 2. Customer Experience (Product & Customer Service teams)
 
-<details>
-<summary>Why these metrics?</summary>
+<Details title="Why these metrics?">
 
 We know that organic orders (repeat purchases and referrals) are driven by **great customer experience**.
 
@@ -399,7 +387,7 @@ The customer experience inputs we can control are:
 
 We tie one metric to each of these inputs.
 
-</details>
+</Details>
 
 
 
@@ -531,8 +519,7 @@ limit 90
 
 \* Returns where customer gave a reason that indicates poor customer experience, eg quality, damaged, wrong item, etc.
 
-<details>
-<summary>Show Charts</summary>
+<Details title="Show Charts">
 
 
 <LineChart
@@ -568,20 +555,19 @@ limit 90
   type=grouped
 />
 
-</details>
+</Details>
 
 ---
 
 ### 3. Capacity (Ops Team)
 
-<details>
-<summary>Why these metrics?</summary>
+<Details title="Why these metrics?">
 
 It is important to manage our capacity:
 - **Enough**: So we deliver short lead times for our customers, and drivers shifts are not too full
 - **Not too much:** So we don't pay for unused capacity
 
-</details>
+</Details>
 
 
 ```sql truck_capacity
@@ -645,8 +631,7 @@ offset 4
 \* This assumes an empirical capacity of 10 deliveries per truck per day. In reality this depends on the size of items and the routes.
 
 
-<details>
-<summary>Show Charts</summary>
+<Details title="Show Charts">
 
 <BarChart
   data={utilisation}
@@ -677,7 +662,7 @@ offset 4
   yFmt=pct
 />
 
-</details>
+</Details>
 
 ---
 
@@ -713,8 +698,7 @@ Note that our website currently limits customers to buying one item per order, m
 
 Allowing multiple items per order should significantly increase our AOV.
 
-<details>
-<summary>Show Charts</summary>
+<Details title="Show Charts">
 
 
 <BarChart
@@ -732,4 +716,4 @@ Allowing multiple items per order should significantly increase our AOV.
   yFmt=usd2
 />
 
-</details>
+</Details>
