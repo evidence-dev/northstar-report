@@ -1,5 +1,6 @@
 ---
 title: Northstar Report
+hide_title: true
 sources:
   - orders: orders.sql
   - orders_2021: orders_2021.sql
@@ -23,9 +24,12 @@ sources:
 ---
 
 <script>
-import Mermaid from '../components/Mermaid.svelte';
-import Details from '../components/Details.svelte';
+  import Mermaid from '../components/Mermaid.svelte';
+  import Details from '../components/Details.svelte';
+  import GithubStarCount from '../components/GithubStarCount.svelte';
 </script>
+
+# Northstar Report <GithubStarCount user=evidence-dev repo=northstar-report/>
 
 
 This report shows the most important daily metrics for our business.
