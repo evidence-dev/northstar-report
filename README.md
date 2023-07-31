@@ -1,34 +1,14 @@
-# Evidence Template Project
+# Northstar Report
 
-Welcome to Evidence. Use this project template to get started.
+This project demostrates using Evidence to create a Northstar Report for a fictional ecommerce business, [Needful Things Inc.](https://www.imdb.com/title/tt0107665/)
 
 ## Getting Started
 
-Check out the docs for [alternative install methods](https://docs.evidence.dev/getting-started/install-evidence) including Docker, Github Codespaces, and alongside dbt.
+1. Download the [Evidence VSCode Extension](https://marketplace.visualstudio.com/items?itemName=Evidence.evidence-vscode)
+1. Open the Command Pallete (`F1`) and enter `Evidence: Create New Project`
+1. Click `Start Evidence`
 
-```shell
-npx degit evidence-dev/template my-project
-cd my-project 
-npm install 
-npm run dev 
-```
-
-Once you've launched Evidence, this project includes a short tutorial to help you get started.
-
-Don't clone this repo, just download the code using the steps above.
-
-## Codespaces
-
-If you are using this template in Codespaces, use the following commands to get started:
-
-```shell
-npm install
-npm run dev -- --host 0.0.0.0
-```
-
-See [the CLI docs](https://docs.evidence.dev/cli/) for more command information.
-
-**Note:** Codespaces is much faster on the Desktop app. After the Codespace has booted, select the hamburger menu → Open in VS Code Desktop.
+If you don't use VSCode, check out the docs for [alternative install methods](https://docs.evidence.dev/getting-started/install-evidence).
 
 ## Learning More
 
