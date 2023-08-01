@@ -1,24 +1,23 @@
 <!-- Mermaid.svelte -->
 <script context="module">
     import mermaid from "mermaid";
-    export function prerender() {
-        mermaid.initialize({
-            startOnLoad: true, // Auto-render diagrams when the page loads
-            theme: "base", // Theme for the diagram, "base" is customizable https://mermaid.js.org/config/theming.html
-            themeVariables: {
-                primaryColor: "hsla(207, 65%, 39%, 1)",
-                primaryTextColor: "#fff",
-                primaryBorderColor: "#fff",
-                lineColor: "hsla(195, 49%, 51%, 1)",
-                secondaryColor: "hsla(342, 40%, 40%, 1)"
-            },
-        });
-    }
 </script>
 
 <script>
     import { onMount, createEventDispatcher } from "svelte";
     export let id;
+
+    let config = {
+        startOnLoad: true,
+        theme: "base",
+        themeVariables: {
+            primaryColor: "hsla(207, 65%, 39%, 1)",
+            primaryTextColor: "#fff",
+            primaryBorderColor: "#fff",
+            lineColor: "hsla(195, 49%, 51%, 1)",
+            secondaryColor: "hsla(342, 40%, 40%, 1)"
+        }
+    }
 
     const dispatch = createEventDispatcher();
 
@@ -28,7 +27,7 @@
         }
 
         mermaid.init(
-            undefined,
+            config,
             document.getElementById(`mermaid-container-${id}`)
         );
 

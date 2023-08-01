@@ -72,9 +72,9 @@ We can break down our revenue as follows:
 <Mermaid id=sales>
 graph LR
   sales --> aov[$ AOV]
-  sales[$ Sales] --> orders["## Orders"]
-  orders --> paid-orders["Paid Orders"]
-  orders --> organic-orders["Organic Orders"]
+  sales[$ Sales] --> orders["# Orders"]
+  orders --> paid-orders["# Paid Orders"]
+  orders --> organic-orders["# Organic Orders"]
 </Mermaid>
 
 </Details>
@@ -240,7 +240,7 @@ Our paid marketing spend drives our paid orders
 
 <Mermaid id=marketing>
 graph LR
-  paid-orders["Paid Orders"] --> spend["$ Spend"]
+  paid-orders["# Paid Orders"] --> spend["$ Spend"]
   paid-orders --> cpa["$ Cost per Acquisition"]
   cpa --> conversion["Conversion Rate %"]
   cpa --> impressions["# Impressions"]
