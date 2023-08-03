@@ -1,6 +1,11 @@
-# Northstar Report
+# Northstar Report Template
 
-This project demostrates using Evidence to create a Northstar Report for a fictional ecommerce business, [Needful Things Inc.](https://www.imdb.com/title/tt0107665/)
+This project is a template that uses Evidence to create a Northstar Report for a fictional ecommerce business, [Needful Things Inc.](https://www.imdb.com/title/tt0107665/)
+
+## Guide
+This template accompanies a guide of [7 practical tips](https://evidence.dev/blog/northstar-reports/) you can use to create effective Northstar reports.
+
+![Northstar iPhone](https://pbs.twimg.com/media/F2nXWhlasAAPn8w?format=jpg&name=large)
 
 ## Getting Started
 
