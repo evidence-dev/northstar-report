@@ -25,11 +25,10 @@ sources:
 
 <script>
   import Mermaid from '../components/Mermaid.svelte';
-  import Details from '../components/Details.svelte';
   import GithubStarCount from '../components/GithubStarCount.svelte';
 </script>
 
-# Northstar Report <GithubStarCount user=evidence-dev repo=northstar-report/>
+# Northstar Report 
 
 
 This report shows the most important daily metrics for our business.
