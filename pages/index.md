@@ -1,7 +1,7 @@
 ---
 title: Northstar Report
 hide_title: true
-sources:
+queries:
   - orders: orders.sql
   - orders_2021: orders_2021.sql
   - paid_orders: marketing/paid_orders.sql
@@ -24,11 +24,18 @@ sources:
 ---
 
 <script>
-  import Mermaid from '../components/Mermaid.svelte';
   import GithubStarCount from '../components/GithubStarCount.svelte';
 </script>
 
 # Northstar Report 
+
+```sql orders
+SELECT 
+  STRPTIME(SUBSTR(order_datetime, 1, 33), '%a %b %d %Y %T GMT%z') AS order_datetime_parsed,
+  *
+from orders
+```
+
 
 
 This report shows the most important daily metrics for our business.

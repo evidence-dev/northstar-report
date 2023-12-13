@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "name": "DuckDB",
+            "accessMode": "Read Only",
+            "previewLimit": 50,
+            "driver": "DuckDB",
+            "databaseFilePath": "/Users/archie/Projects/northstar-report/needful_things.duckdb"
+        }
+    ]
+}
