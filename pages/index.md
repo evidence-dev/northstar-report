@@ -1,7 +1,7 @@
 ---
 title: Northstar Report
 hide_title: true
-sources:
+queries:
   - orders: orders.sql
   - orders_2021: orders_2021.sql
   - paid_orders: marketing/paid_orders.sql
@@ -429,3 +429,5 @@ but currently we do not have data on availability.
 <BigLink href='/4.-merch'>
   More Detail &rarr;
 </BigLink>
+
+
