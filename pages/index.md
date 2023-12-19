@@ -28,16 +28,6 @@ queries:
   import GithubStarCount from '../components/GithubStarCount.svelte';
 </script>
 
-```sql hugeint
-select sum(sales) from hugeint
-```
-
-
-<DataTable data={hugeint}/>
-
-
-
-
 # Northstar Report 
 
 
