@@ -185,7 +185,7 @@ graph LR
 <Details title="Why these groups?">
 
 
-Revenue is are impacted by:
+Revenue is impacted by:
   1. **Paid marketing** (volume and efficiency)
   2. **Customer experience** (which drives repeat purchases and referrals, ie organic orders)
   3. **Capacity** we have to fulfill orders
